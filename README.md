@@ -8,7 +8,6 @@ A smart hostel management system that allocates rooms based on student lifestyle
 - Profile management
 - Preference submission (Likert scale)
 - Smart compatibility-based room allocation
-- Payment processing (M-Pesa/Bank)
 - Real-time notifications
 - Admin dashboard with charts and reports
 
