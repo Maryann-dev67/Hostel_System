@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register - Hostel Management System</title>
+        <link rel="stylesheet" href="../css/style.css">
+
+    </head>
+<body>
+    <div class="header">
+        <h1>Preference Based Hostel Management System</h1>
+        <p>Create your Account</p>
+    </div>
+
+    <div class="nav">
+        <a href="../index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+    </div>
+
+    <div class="form-container">
+        <h2 style="text-align:center; margin-bottom: 20px;">Register</h2>
+        <div id="urlMessage" style="margin-bottom: 20px;"></div>
+        <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 5px; text-align: center;"></div>
+
+        <form  id="registerForm" action="../controller/Authcontroller.php" method="POST">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" id="password" required>
+                    <span class="toggle-btn" onclick="togglePassword('password', this)">Show</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <div class="password-wrapper">
+                    <input type="password" name="confirm_password" id="confirm_password" required>
+                    <span class="toggle-btn" onclick="togglePassword('confirm_password', this)">Show</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Register as </label>
+                <select name="role" required>
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="student">Student</option>
+                </select>
+            </div>
+
+            <button type="submit" name="register" class="btn" style="width:100%; display:block; box-sizing:border-box; padding:10px 12px;">Register</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Already Have an Account?<a href="login.html">Login Here</a>
+        </p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2026 Preference Based Hostel Management System.All Rights Reserved</p>
+    </div>
+    <script>
+        function togglePassword(fieldId, button) {
+            const input = document.getElementById(fieldId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                button.textContent = 'Show';
+            }
+        }
+        function displayUrlMessages() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const container = document.getElementById('urlMessage');
+
+            container.innerHTML = '';
+
+            // Error Messages
+            if (urlParams.has('error')) {
+                const type = urlParams.get('error');
+                let message = '';
+
+                const errorMessages = {
+                    'empty_fields': 'All fields are required!',
+                    'invalid_email': 'Please enter a valid email address!',
+                    'short_password': 'Password must be at least 8 characters!',
+                    'no_uppercase': 'Password must contain at least 1 capital letter!',
+                    'no_special': 'Password must contain at least 1 special character (!@#$%^&*)!',
+                    'password_mismatch': 'Passwords do not match!',
+                    'admin_not_allowed': 'Admin registration is not allowed!',
+                    'email_exists': 'This email is already registered. Please <a href="login.html">login</a>.',
+                    'registration_failed': 'Registration failed. Please try again.'
+                };
+
+                message = errorMessages[type] || 'Registration failed. Please try again.';
+
+                if (message) {
+                    container.innerHTML = `<div style="background: #f8d7da; color: #721c24; padding: 12px 18px; border-radius: 5px; border: 1px solid #f5c6cb;">${message}</div>`;
+                }
+            }
+
+            // Success Message
+            if (urlParams.has('success')) {
+                container.innerHTML = `<div style="background: #d4edda; color: #155724; padding: 12px 18px; border-radius: 5px; border: 1px solid #c3e6cb;">Registration successful! Please <a href="login.html">login</a>.</div>`;
+            }
+
+            if (urlParams.has('error') || urlParams.has('success')) {
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 5000);
+            }
+
+            // Clean URL
+            if (urlParams.has('error') || urlParams.has('success')) {
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            displayUrlMessages();
+        });
+    </script>
+</body>
+    
+</html>

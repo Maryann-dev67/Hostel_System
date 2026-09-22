@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit preferences</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Preference Based Hostel Management System</h1>
+        <p>Submit your Lifestyle Preferences</p>
+    </div>
+
+    <div class="nav">
+        <a href="student_dashboard.html">Dashboard</a>
+        <a href="student_profile.html">Complete Profile</a>
+        <a href="preferences.html">Preferences</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="student_payment.html">Payments</a>
+        <a href="../controller/logout.php">logout</a>
+    </div>
+    
+    <div class="form-container">
+        <h2 style="text-align:center; margin-bottom: 20px;">Preference Form </h2>
+        <p style="text-align: center; margin-bottom: 20px;">Your answers will help us find compatible roommates for you</p>
+        <div id="message" style="display: none; padding: 10px; margin-bottom: 20px; border-radius: 5px; text-align: center;"></div>
+        
+        <form  id="preferenceForm" action="../controller/preference_controller.php" method="POST">
+             <div class="form-group">
+                <label>Sleep Schedule</label>
+                <select name="sleep_schedule" required>
+                    <option value="" disabled selected>Select Your sleep schedule</option>
+                    <option value="early">Early(8pm-10pm)</option>
+                    <option value="night">Night(11pm-1am)</option>
+                    <option value="flexible">Flexible</option>
+                </select>
+             </div>
+             <div class="form-group">
+                    <label>Cleanliness Level</label>
+                    <select name="cleanliness_level" required>
+                        <option value="" disabled selected>Cleanliness Level</option>
+                        <option value="1">1- Very Messy</option>
+                        <option value="2">2- Somewhat Messy</option>
+                        <option value="3">3- Moderate</option>
+                        <option value="4">4- Neat</option>
+                        <option value="5">5- Very Clean</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Study Habits</label>
+                    <select name="study_habits" required>
+                        <option value="" disabled selected>Select Study Preference</option>
+                        <option value="1">1 - Very Quiet (Need absolute silence)</option>
+                        <option value="2">2 - Quiet (Prefer minimal noise)</option>
+                        <option value="3">3 - Moderate (Can handle some noise)</option>
+                        <option value="4">4 - Social (Prefer studying with others)</option>
+                        <option value="5">5 - Very Social (Can't study alone)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Noise Tolerance</label>
+                    <select name="noise_tolerance" required>
+                        <option value="" disabled selected>Noise Tolerance</option>
+                        <option value="1">1- Need Complete Silence</option>
+                        <option value="2">2- Prefer Quiet</option>
+                        <option value="3">3- Can tolerate Moderate noise</option>
+                        <option value="4">4- Comfortable With Noise</option>
+                        <option value="5">5- Unaffected by Noise</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Social Level</label>
+                    <select name="social_level" required>
+                        <option value="" disabled selected>Social Preference</option>
+                        <option value="1">1- Very Private</option>
+                        <option value="2">2- Mostly Private</option>
+                        <option value="3">3- Moderate</option>
+                        <option value="4">4- Social</option>
+                         <option value="5">5- Very Social</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Period</label>
+                    <select name="preferred_period" required>
+                        <option value="" disabled selected>Select Period</option>
+                        <option value="Semester 1">Semester 1(Sep-Dec)</option>
+                        <option value="Semester 2">Semester 2(Jan-Apr)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Room Type:</label>
+                    <select name="preferred_room_type" required>
+                        <option value="" disabled selected>Select Room Type</option>
+                        <option value="single">Single</option>
+                        <option value="double">Double</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width:100%">Submit Preferences</button>
+
+        </form>
+
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Preference Based Hostel Management System.All Rights Reserved</p>
+    </div>
+    <script>
+    const messageDiv = document.getElementById('message');
+
+    function showMessage(text, isError = false) {
+        messageDiv.style.display = 'block';
+        messageDiv.textContent = text;
+        
+        if (isError) {
+            messageDiv.style.backgroundColor = '#f8d7da';
+            messageDiv.style.color = '#721c24';
+            messageDiv.style.border = '1px solid #f5c6cb';
+        } else {
+            messageDiv.style.backgroundColor = '#d4edda';
+            messageDiv.style.color = '#155724';
+            messageDiv.style.border = '1px solid #c3e6cb';
+        }
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 4000);
+    }
+
+    document.getElementById('preferenceForm').addEventListener('submit', function(e){
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        
+        // Clear previous message
+        messageDiv.style.display = 'none';
+        
+        fetch('../controller/preference_controller.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            const responseText = data.trim();
+            console.log('Server response:', responseText);
+            
+            // Check for specific messages
+            if (responseText.includes('updated')) {
+                showMessage('Preferences updated successfully!', false);
+            } else if (responseText.includes('saved')) {
+                showMessage('Preferences saved successfully!', false);
+            } else if (responseText.includes('Error') || responseText.includes('error')) {
+                showMessage(responseText, true);
+            } else {
+                showMessage('Preferences saved successfully!', false);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('Error saving preferences. Please try again.', true);
+        });
+    });
+</script>
+</body>
+</html>

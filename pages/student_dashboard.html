@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/student_dashboard.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Hostel Management System</h1>
+        <p>Student Dashboard</p>
+    </div>
+
+    <div class="nav">
+        <a href="student_dashboard.html">Dashboard</a>
+        <a href="student_profile.html">Profile</a>
+        <a href="preferences.html">Preferences</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="student_payment.html">Payments</a>
+        <a href="../controller/logout.php">Logout</a>
+    </div>
+    <div class="welcome-box">
+        <h2 id="welcomeMessage"> Welcome Student</h2>
+        <p id="statusMessage">Complete your profile and submit your preferences to get started.</p>
+    </div>
+    <div class="dashboard-cards">
+        <div class="card">
+            <div class="icon">Step 1</div>
+            <h3>Complete Profile</h3>
+            <p>Fill in your personal details</p>
+            <a href="student_profile.html" class="btn">Go to Profile</a>
+        </div>
+        <div class="card">
+            <div class="icon">Step 2</div>
+            <h3>Submit Preferences</h3>
+            <p>Tell us your room preferences</p>
+            <a href="preferences.html" class="btn">Submit Preferences</a>
+        </div>
+        <div class="card">
+            <div class="icon">Step 3</div>
+            <h3>Notifications</h3>
+            <p>Check your allocation status</p>
+            <a href="notifications.html" class="btn">View Notifications</a>
+        </div>
+        <div class="card">
+            <div class="icon">Step 4</div>
+            <h3>Payments</h3>
+            <p>Easy and fast payments</p>
+            <a href="student_payment.html" class="btn">Make Payment</a>
+        </div>
+    </div>
+<div class="journey-section">
+<div class="section-heading">
+    <h2>How It Works</h2>
+    <p>Your simple guide to securing hostel accommodation.</p>
+</div>
+<div class="journey-container">
+
+    <div class="journey-item">
+        <div class="journey-number">1</div>
+        <h3>Complete Profile</h3>
+        <p>Provide your personal and academic details.</p>
+    </div>
+
+    <div class="journey-item">
+        <div class="journey-number">2</div>
+        <h3>Set Preferences</h3>
+        <p>Choose your preferred hostel and room options.</p>
+    </div>
+
+    <div class="journey-item">
+        <div class="journey-number">3</div>
+        <h3>Get Allocated</h3>
+        <p>Rooms are allocated based on preferences and availability.</p>
+    </div>
+
+    <div class="journey-item">
+        <div class="journey-number">4</div>
+        <h3>Check Updates</h3>
+        <p>View notifications for your allocation details.</p>
+    </div>
+
+    <div class="journey-item">
+        <div class="journey-number">5</div>
+        <h3>Make Payment</h3>
+        <p>Complete payment after receiving your allocation.</p>
+    </div>
+
+</div>
+</div>
+
+<div class="info-section">
+<div class="section-heading">
+    <h2>Important Information</h2>
+    <p>Keep these guidelines in mind during your application.</p>
+</div>
+
+<div class="info-container">
+    <div class="info-card">
+        <h3>Keep Details Updated</h3>
+        <p>Ensure your personal information is correct and up to date.</p>
+    </div>
+    <div class="info-card">
+        <h3>Apply on Time</h3>
+        <p>Submit your preferences before the application deadline.</p>
+    </div>
+
+    <div class="info-card">
+        <h3>Room Availability</h3>
+        <p>Allocation depends on your preferences and available rooms.</p>
+    </div>
+
+    <div class="info-card">
+        <h3>Stay Updated</h3>
+        <p>Check your notifications regularly for important updates.</p>
+    </div>
+
+</div>
+</div>
+<div class="quick-section">
+<div class="section-heading">
+    <h2>Quick Actions</h2>
+    <p>Access important student services quickly.</p>
+</div>
+
+<div class="quick-links">
+
+    <a href="student_profile.html">Update Profile</a>
+    <a href="preferences.html">Submit Preferences</a>
+    <a href="notifications.html">Notifications</a>
+    <a href="student_payment.html">Make Payment</a>
+
+</div>
+</div>
+
+    <div class="footer">
+        <p>&copy; 2026 Preference Based Hostel Management System</p>
+    </div>
+
+    <script>
+        fetch('../api/get_student_name.php')
+            .then(response => response.json())
+            .then(data => {
+                if(data.success && data.name) {
+                    document.getElementById('welcomeMessage').innerHTML = ' Welcome, ' + data.name + '!';
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    </script>
+
+</body>
+</html>

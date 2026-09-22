@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Notifications</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Preference Based Hostel Booking and Allocation Management System</h1>
+        <p>My Notifications</p>
+    </div>
+
+    <div class="nav">
+        <a href="student_dashboard.html">Dashboard</a>
+        <a href="student_profile.html">Profile</a>
+        <a href="preferences.html">Preferences</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="student_payment.html">Payments</a>
+        <a href="../controller/logout.php">Logout</a>
+    </div>
+    
+    <div class="container">
+        <h2 style="text-align: center;">My Notifications</h2>
+        
+        <div id="loading" style="text-align: center; padding: 20px;">
+            <p>Loading notifications...</p>
+        </div>
+        
+        <div id="noNotifications" style="display: none; text-align: center; padding: 20px;">
+            <p>No Notifications found.</p>
+        </div>
+
+        <div id="notificationsList" style="display: none;">
+            <div class="table-container">
+                <table style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="notificationsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2026 Preference Based Hostel Management System. All Rights reserved</p>
+    </div>
+
+    <script>
+        // Get all elements first
+        const loadingDiv = document.getElementById('loading');
+        const noNotificationsDiv = document.getElementById('noNotifications');
+        const notificationsListDiv = document.getElementById('notificationsList');
+        const notificationsBody = document.getElementById('notificationsBody');
+        //function to confirm occupancy
+        function confirmOccupancy() {
+            if(confirm('Have you physically moved into your allocated room?')){
+                fetch('../controller/confirm_occupancy.php',{
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success){
+                        alert('Occupancy Confirmed!');
+                        location.reload();
+                    }else{
+                        alert('Error:' +data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('Error Confirming occupancy');
+                });
+            }
+        }
+        //check if student needs to confirm occupancy
+        fetch('../api/get_allocation_status.php')
+        .then(response => response.json())
+        .then(statusData => {
+            if(statusData.needs_confirmation){
+                //banner
+                const container = document.querySelector('.container');
+                const banner = document.createElement('div');
+                banner.style.cssText = 'background: #fff3cd; padding: 15px; margin-bottom: 20px; border-radius: 5px; text-align: center;';
+                banner.innerHTML = `
+                <strong>Confirm Room Occupancy</strong><br>
+                You have been allocated a room please confirm when you have moved in.
+                
+                <button onclick="confirmOccupancy()" class="confirm-btn" style="margin-left: 10px;">Confirm Occupancy</button>
+                `;
+                container.insertBefore(banner, container.firstChild);
+            }
+        })
+        // Fetch notifications
+        fetch('../api/get_notifications.php')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data received:', data);
+                
+                if(loadingDiv) loadingDiv.style.display = 'none';
+                
+                if(data.success && data.notifications && data.notifications.length > 0){
+                    if(notificationsListDiv) notificationsListDiv.style.display = 'block';
+                    
+                    let html = '';
+                    for(let i = 0; i < data.notifications.length; i++){
+                        let n = data.notifications[i];
+                        let statusColor = n.status === 'unread' ? 'red' : 'green';
+                        html += '<tr>';
+                        html += '<td style="padding: 8px;">' + n.date_sent + '</td>';
+                        html += '<td style="padding: 8px;">' + n.message_type + '</td>';
+                        html += '<td style="padding: 8px;">' + n.message_content + '</td>';
+                        html += '<td style="padding: 8px; color: ' + statusColor + '; font-weight: bold;">' + n.status + '</td>';
+                        html += '</tr>';
+                    }
+                    if(notificationsBody) notificationsBody.innerHTML = html;
+
+                    //mark notifications as read
+                    fetch('../api/mark_notifications_read.php', {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(markData => {
+                        console.log('Marked as read:', markData);
+                    })
+                    .catch(err => console.log('Mark read error:', err));
+                } else {
+                    if(noNotificationsDiv) noNotificationsDiv.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.log('Fetch error:', error);
+                if(loadingDiv) loadingDiv.style.display = 'none';
+                if(noNotificationsDiv){
+                    noNotificationsDiv.style.display = 'block';
+                    noNotificationsDiv.innerHTML = '<p>Error loading notifications: ' + error + '</p>';
+                }
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+    .hero {
+        background: #e8f3fa;
+        padding: 35px 30px;
+        text-align: center;
+        margin: 0px 30px 35px;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        border-left: 4px solid #3498db;
+    }
+    .hero h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+    .hero p {
+        color: #34495e;
+        font-size: 17px;
+        line-height: 1.6;
+        max-width: 1100px;
+        margin-bottom: 0 auto 15px;
+        text-align: center;
+    }
+    .features {
+        display: flex;
+        gap: 25px;
+        justify-content: center;
+        margin: 40px 30px;
+        flex-wrap: wrap;
+    }
+    .feature {
+        background: white;
+        padding: 30px 25px;
+        border-radius: 10px;
+        width: 400px;
+        min-height: 200px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feature:nth-child(2) {
+        background: #eefaf3;
+        border-top: 4px solid #2ecc71;
+    }
+    .feature:nth-child(3) {
+        background: #fff7e8;
+        border-top: 4px solid #f39c12;
+    }
+    .feature:first-child {
+        border-top: 4px solid #3498db;
+    }
+    .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    }
+    .feature h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 20px;
+    }
+    .feature p {
+        color: #666;
+        line-height: 1.5;
+    }
+    .help-box {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin: 45px 0 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .help-content h2 {
+        margin-top: 0;
+    }
+    .help-content p {
+        line-height: 1.6;
+    }
+    .contact-info {
+        margin-top: 15px;
+    }
+    .help-btn {
+        background: white;
+        color: #3498db;
+        padding: 12px 20px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        white-space: nowrap;
+        margin-left: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Preference-Based Booking & Allocation Management System</h1>
+    <p>Hostel Management System</p>
+</div>
+
+<div class="nav">
+    <a href="index.html">Home</a>
+    <a href="pages/login.html">Login</a>
+    <a href="pages/register.html">Register</a>
+</div>
+
+<div class="hero">
+    <h2>Find ideal and compatible roommates</h2>
+    <p>Our preference based system helps students find suitable 
+        accommodation  and compatible roommates based on their preferences and habits
+    </p>
+    <p>
+        Simplifying the hostel allocation process for students and
+        administrators through efficient preference-based room matching.
+    </p>
+</div>
+
+<div class="features">
+    <div class="feature">
+        <h3>Submit Preferences</h3>
+        <p>Tell us about your lifestyle - sleep schedule, cleanliness, study habits, and more.</p>
+    </div>
+    <div class="feature">
+        <h3>Find Compatible Roommates</h3>
+        <p>Get matched with students who share similar habits and preferences.</p>
+    </div>
+    <div class="feature">
+        <h3>Easy Allocation</h3>
+        <p>Administrators can quickly assign rooms based on student preferences.</p>
+    </div>
+</div>
+
+<div class="buttons">
+    <a href="pages/login.html" class="btn">Login</a>
+    <a href="pages/register.html" class="btn btn-secondary">Register</a>
+</div>
+<div class="help-box">
+<div class="help-content">
+    <h2>Need Help?</h2>
+    <p>
+        Having trouble with your hostel application? Contact the hostel
+        administration for assistance.
+    </p>
+    <div class="contact-info">
+        <p><strong>Email:</strong> hostel@university.ac.ke</p>
+        <p><strong>Office Hours:</strong> Monday - Friday, 8:00 AM - 5:00 PM</p>
+    </div>
+</div>
+
+<a href="mailto:hostel@management.ac.ke" class="help-btn">
+    Contact Support
+</a>
+</div>
+
+<div class="footer">
+    <p>&copy; 2026  Preference Based Hostel Management System. All rights reserved.</p>
+</div>
+
+</body>
+</html>
